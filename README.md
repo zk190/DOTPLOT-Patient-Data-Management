@@ -8,7 +8,7 @@ The project is built using synthetic data only and demonstrates the development 
 ## Application Preview
 
 <img src="images/clinical-workspace.png" width="900">
-## Features
+
 
 ## Why This Project?
 
