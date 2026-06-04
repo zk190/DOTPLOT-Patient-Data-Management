@@ -4,6 +4,12 @@ Dotplot is a full-stack PACS-EMR integration prototype for breast cancer case re
 
 The project is built using synthetic data only and demonstrates the development of secure healthcare software systems, clinical data management workflows, and full-stack web application architecture.
 
+
+## Application Preview
+
+<img src="images/clinical-workspace.png" width="900">
+## Features
+
 ## Why This Project?
 
 Radiologists and nurses often move between disconnected systems, such as electronic medical records (EMRs), PACS imaging platforms, and external documentation. Dotplot explores how a unified browser-based clinical workspace could reduce context switching while maintaining the security and auditability expected in healthcare software.
@@ -21,10 +27,6 @@ Radiologists and nurses often move between disconnected systems, such as electro
 * Healthcare Data Management
 * System Design
 
-## Application Preview
-
-<img src="images/clinical-workspace.png" width="900">
-## Features
 
 ### Clinical Workspace
 
