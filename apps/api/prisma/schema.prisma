@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String       @id @default(cuid())
+  name         String
+  email        String       @unique
+  passwordHash String
+  role         String
+  auditEvents  AuditEvent[]
+  reports      Report[]
+  createdAt    DateTime     @default(now())
+}
+
+model Patient {
+  id                String             @id @default(cuid())
+  patientCode       String             @unique
+  nhsNumber         String
+  name              String
+  age               Int
+  allergies         String
+  medications       String
+  diagnosis         String
+  birads            String
+  imagingStudies    ImagingStudy[]
+  lesionAnnotations LesionAnnotation[]
+  reports           Report[]
+  auditEvents       AuditEvent[]
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+}
+
+model ImagingStudy {
+  id                String             @id @default(cuid())
+  patientId         String
+  patient           Patient            @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  scanCode          String             @unique
+  modality          String
+  studyDate         DateTime
+  imageUrl          String
+  lesionAnnotations LesionAnnotation[]
+}
+
+model LesionAnnotation {
+  id                 String       @id @default(cuid())
+  patientId          String
+  patient            Patient      @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  imagingStudyId     String
+  imagingStudy       ImagingStudy @relation(fields: [imagingStudyId], references: [id], onDelete: Cascade)
+  breast             String
+  quadrant           String
+  clockFace          String
+  distanceFromNipple String
+  torsoX             Float
+  torsoY             Float
+  previewX           Float
+  previewY           Float
+  birads             String
+  diagnosis          String
+}
+
+model Report {
+  id        String   @id @default(cuid())
+  patientId String
+  patient   Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  body      String
+  createdAt DateTime @default(now())
+}
+
+model AuditEvent {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  role      String
+  action    String
+  patientId String?
+  patient   Patient? @relation(fields: [patientId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+}

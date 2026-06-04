@@ -1,0 +1,27 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      DATABASE_URL: file:./dev.db
+      JWT_SECRET: local-development-secret
+      PORT: 4000
+    ports:
+      - "4000:4000"
+    volumes:
+      - api-data:/app/apps/api/prisma
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    environment:
+      VITE_API_URL: http://localhost:4000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+
+volumes:
+  api-data:

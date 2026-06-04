@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dotplot PACS-EMR Pilot</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand" aria-label="Dotplot home">
+        <span class="brand-mark" aria-hidden="true">D</span>
+        <div>
+          <strong>Dotplot</strong>
+          <span>PACS-EMR breast case review</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <label class="role-picker">
+          Role
+          <select id="roleSelect">
+            <option>Radiologist</option>
+            <option>Oncology nurse</option>
+            <option>Hospital IT</option>
+          </select>
+        </label>
+        <button id="newPatientBtn" type="button">New patient</button>
+      </div>
+    </header>
+
+    <main class="app-shell">
+      <aside class="patient-rail" aria-label="Patient list">
+        <div class="search-row">
+          <input id="searchInput" type="search" placeholder="Search by name, ID, risk" />
+        </div>
+        <div id="patientList" class="patient-list"></div>
+      </aside>
+
+      <section class="workspace">
+        <nav class="tabs" aria-label="Case workspace">
+          <button class="tab active" type="button" data-tab="overview">Case overview</button>
+          <button class="tab" type="button" data-tab="ward">Ward form</button>
+          <button class="tab" type="button" data-tab="audit">Access log</button>
+        </nav>
+
+        <section id="overviewTab" class="tab-panel active">
+          <div class="summary-band">
+            <div>
+              <span class="eyebrow">Matched patient and scan</span>
+              <h1 id="patientTitle">Patient case</h1>
+              <p id="patientSubtitle"></p>
+            </div>
+            <div class="summary-actions">
+              <button id="saveBtn" type="button">Save changes</button>
+              <button id="reportBtn" type="button">Generate PDF report</button>
+              <button id="deleteBtn" class="danger" type="button">Delete</button>
+            </div>
+          </div>
+
+          <div class="case-grid">
+            <form id="patientForm" class="panel patient-form">
+              <h2>Structured EMR fields</h2>
+              <div class="form-grid">
+                <label>Patient ID<input name="id" required /></label>
+                <label>NHS number<input name="nhs" required /></label>
+                <label>Name<input name="name" required /></label>
+                <label>Age<input name="age" type="number" min="16" max="120" required /></label>
+                <label>Allergies<input name="allergies" /></label>
+                <label>Medication list<input name="medications" /></label>
+                <label>Diagnosis<input name="diagnosis" /></label>
+                <label>BI-RADS
+                  <select name="birads">
+                    <option>BI-RADS 2</option>
+                    <option>BI-RADS 3</option>
+                    <option>BI-RADS 4A</option>
+                    <option>BI-RADS 4B</option>
+                    <option>BI-RADS 4C</option>
+                    <option>BI-RADS 5</option>
+                  </select>
+                </label>
+              </div>
+            </form>
+
+            <section class="panel lesion-panel">
+              <div class="panel-title">
+                <h2>Torso lesion map</h2>
+                <span id="syncBadge" class="status-badge">PACS matched</span>
+              </div>
+              <div class="torso-and-scan">
+                <div class="torso-wrap">
+                  <svg class="torso" viewBox="0 0 360 520" role="img" aria-label="Breast lesion torso diagram">
+                    <path d="M151 28 C105 42 78 77 70 123 L53 231 C47 272 57 330 88 388 L118 468 C126 491 145 506 180 506 C215 506 234 491 242 468 L272 388 C303 330 313 272 307 231 L290 123 C282 77 255 42 209 28 C198 52 192 79 180 105 C168 79 162 52 151 28 Z" fill="#f4d2c8" stroke="#a87368" stroke-width="4"/>
+                    <circle cx="133" cy="227" r="58" fill="#efd0c5" stroke="#b88379" stroke-width="3"/>
+                    <circle cx="227" cy="227" r="58" fill="#efd0c5" stroke="#b88379" stroke-width="3"/>
+                    <line x1="180" y1="96" x2="180" y2="476" stroke="#b88379" stroke-width="2" stroke-dasharray="7 8"/>
+                    <text x="92" y="160">Left</text>
+                    <text x="223" y="160">Right</text>
+                    <g id="lesionDots"></g>
+                  </svg>
+                </div>
+                <div class="scan-preview">
+                  <div class="ultrasound" id="ultrasoundPreview" aria-label="Ultrasound preview">
+                    <div class="scan-noise"></div>
+                    <div class="scan-lesion"></div>
+                  </div>
+                  <dl id="lesionDetails"></dl>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section id="wardTab" class="tab-panel">
+          <form id="wardForm" class="panel ward-form">
+            <h2>Two-tap ward form</h2>
+            <div class="form-grid">
+              <label>Temperature C<input name="temperature" type="number" step="0.1" min="30" max="45" /></label>
+              <label>Pulse bpm<input name="pulse" type="number" min="30" max="220" /></label>
+              <label>Blood pressure<input name="bp" placeholder="124/78" pattern="[0-9]{2,3}/[0-9]{2,3}" /></label>
+              <label>Medication dose<input name="dose" placeholder="e.g. 5 mg" /></label>
+              <label>Allergy update<input name="allergyUpdate" /></label>
+              <label>Offline status
+                <select name="offline">
+                  <option>Ready to sync</option>
+                  <option>Saved offline</option>
+                </select>
+              </label>
+            </div>
+            <p id="validationMessage" class="validation-message" aria-live="polite"></p>
+            <button id="wardSaveBtn" type="button">Save ward note</button>
+          </form>
+        </section>
+
+        <section id="auditTab" class="tab-panel">
+          <section class="panel">
+            <h2>Timestamped access log</h2>
+            <div id="auditLog" class="audit-log"></div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <section id="reportSheet" class="report-sheet" aria-hidden="true">
+      <div class="report-page">
+        <h1>Dotplot Patient Report</h1>
+        <div id="reportContent"></div>
+      </div>
+    </section>
+
+    <script src="app.js"></script>
+  </body>
+</html>
