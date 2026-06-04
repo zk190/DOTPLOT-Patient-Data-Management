@@ -21,6 +21,9 @@ Radiologists and nurses often move between disconnected systems, such as electro
 * Healthcare Data Management
 * System Design
 
+## Application Preview
+
+<img src="images/clinical-workspace.png" width="900">
 ## Features
 
 ### Clinical Workspace
