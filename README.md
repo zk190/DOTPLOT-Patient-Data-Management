@@ -1,70 +1,108 @@
-##Dotplot
-Dotplot is a full-stack PACS-EMR integration prototype for breast-cancer case review. It brings patient records, ultrasound study metadata, lesion coordinates, breast torso visualisation, role-based workflows, audit logging, and report generation into one clinical workspace.
+# Dotplot
 
-The project is built with synthetic data only and is designed as a graduate software developer portfolio piece for health-tech, clinical systems, and secure web application roles.
+Dotplot is a full-stack PACS-EMR integration prototype for breast cancer case review. It brings patient records, ultrasound study metadata, lesion coordinates, breast torso visualisation, role-based workflows, audit logging, and report generation into a single clinical workspace.
 
-##Why This Project
-Radiologists and nurses often move between disconnected systems: an EMR for patient details, a PACS viewer for scans, and paper notes for lesion locations. Dotplot explores how a browser-based clinical tool could reduce that context switching while preserving the security expectations of patient-data software.
+The project is built using synthetic data only and demonstrates the development of secure healthcare software systems, clinical data management workflows, and full-stack web application architecture.
 
-##The application demonstrates:
+## Why This Project?
 
-Patient CRUD through a real backend API
-Matching patient records to ultrasound imaging studies
-Interactive torso map for breast lesion coordinates
-Role-based access control for radiologist, nurse, and IT admin workflows
-Server-side validation and append-only audit events
-Report generation workflow for radiology review
-Shared TypeScript types across frontend and backend
-##Tech Stack
-Area	Tools
-Frontend	React, TypeScript, Vite, TanStack Query
-Backend	Node.js, Fastify, TypeScript, Zod
-Database	Prisma, SQLite for local development
-Auth & Security	JWT, bcrypt password hashing, role-based access control, no PHI in URLs
-DevOps	Docker Compose, GitHub Actions CI
-Testing	Vitest
-##Key Features
-Clinical Workspace
-Clinicians can view structured patient details, matched ultrasound scan IDs, diagnosis, BI-RADS rating, allergies, medications, and lesion metadata from one screen.
+Radiologists and nurses often move between disconnected systems, such as electronic medical records (EMRs), PACS imaging platforms, and external documentation. Dotplot explores how a unified browser-based clinical workspace could reduce context switching while maintaining the security and auditability expected in healthcare software.
 
-##Lesion Mapping
-Radiologists can use the torso visualisation to review lesion side, quadrant, clock-face position, distance from nipple, and matching scan information.
+## Key Skills Demonstrated
 
-##Role-Based Access Control
-The backend enforces different permissions for:
+* Full-Stack Development
+* React & TypeScript
+* Node.js & Fastify
+* REST API Development
+* Database Design with Prisma
+* Authentication & Authorisation
+* Role-Based Access Control (RBAC)
+* Audit Logging & Security
+* Healthcare Data Management
+* System Design
 
-Radiologist: patient review and report generation
-Nurse: ward observation workflow
-IT admin: audit trail review and administrative access
-##Audit Logging
-Patient access and clinical actions are recorded server-side with user, role, patient ID, action, and timestamp. This models the auditability expected in healthcare software.
+## Features
 
-##Security-Conscious Design
-Dotplot uses synthetic data, bcrypt-hashed passwords, JWT authentication, server-side Zod validation, and avoids placing protected health information in URLs.
+### Clinical Workspace
 
-##Architecture
-apps/web        React + TypeScript frontend
-apps/api        Fastify API, Prisma schema, auth, RBAC, audit logging
-packages/shared Shared TypeScript domain types
-Running Locally
+Clinicians can view structured patient details, matched ultrasound scan IDs, diagnosis information, BI-RADS ratings, allergies, medications, and lesion metadata from a single interface.
+
+### Patient Management
+
+* Patient CRUD operations through a backend API
+* Patient-to-ultrasound study matching
+* Structured clinical record management
+
+### Lesion Mapping
+
+Radiologists can review lesion side, quadrant, clock-face position, distance from nipple, and associated scan information through an interactive torso visualisation.
+
+### Role-Based Access Control
+
+Different user roles are supported:
+
+* **Radiologist** – Patient review and report generation
+* **Nurse** – Clinical observation workflow
+* **IT Administrator** – Audit trail review and system administration
+
+### Audit Logging
+
+Clinical actions are recorded server-side with user, role, patient ID, action type, and timestamp information to support traceability and accountability.
+
+### Security Features
+
+* JWT Authentication
+* bcrypt Password Hashing
+* Server-side Validation with Zod
+* Role-Based Access Control
+* No Protected Health Information (PHI) in URLs
+* Append-Only Audit Events
+
+## Technology Stack
+
+| Area           | Technologies                            |
+| -------------- | --------------------------------------- |
+| Frontend       | React, TypeScript, Vite, TanStack Query |
+| Backend        | Node.js, Fastify, TypeScript, Zod       |
+| Database       | Prisma, SQLite                          |
+| Authentication | JWT, bcrypt                             |
+| DevOps         | Docker Compose, GitHub Actions          |
+| Testing        | Vitest                                  |
+
+## Architecture
+
+* `apps/web` – React and TypeScript frontend
+* `apps/api` – Fastify API, Prisma schema, authentication, RBAC, and audit logging
+* `packages/shared` – Shared TypeScript domain models and types
+
+## Development
+
+The project can be run locally using Node.js or Docker.
+
+### Local Development
+
+```bash
 npm install
 cp apps/api/.env.example apps/api/.env
 npm run db:push
 npm run db:seed
 npm run dev
-Frontend: http://localhost:5173
-Backend: http://localhost:4000
-API docs: http://localhost:4000/docs
+```
 
-Demo users all use the password Dotplot123!:
+### Docker
 
-radiologist@dotplot.test
-nurse@dotplot.test
-it@dotplot.test
-Docker
+```bash
 docker compose up --build
-Quality Checks
-npm run build
-npm test
-Data Notice
-All names, patient identifiers, scan IDs, and clinical details are synthetic mock data. This repository must not be used with real patient data or PHI.
+```
+
+## Data Notice
+
+All patient names, identifiers, scan IDs, and clinical details used within this project are synthetic mock data.
+
+This repository is intended for educational and portfolio purposes only and must not be used with real patient data or protected health information (PHI).
+
+## Author
+
+Zainab Khan
+
+Final-Year Computing Student | Software Development & Health Technology Projects
